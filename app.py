@@ -3,13 +3,15 @@ import sqlite3
 from datetime import datetime, date, time
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+from google.oauth2 import service_account
+
 
 # --- GOOGLE CALENDAR CONFIGURATION ---
 # Replace this with your actual Google Calendar ID
 CALENDAR_ID = "hrangchalmail@gmail.com"
 SCOPES = ['https://googleapis.com']
 
-creds_dict = dict(st.secrets["connections.gcs"])
+creds_dict = dict(st.secrets["connections_gcs"])
 
 # 2. Define required scopes for Google Calendar
 SCOPES = ["https://googleapis.com"]
