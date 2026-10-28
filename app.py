@@ -9,11 +9,16 @@ from googleapiclient.discovery import build
 CALENDAR_ID = "hrangchalmail@gmail.com"
 SCOPES = ['https://googleapis.com']
 
+creds_dict = dict(st.secrets["connections.gcs"])
+
+# 2. Define required scopes for Google Calendar
+SCOPES = ["https://googleapis.com"]
+
 def get_calendar_service():
     """Initializes the Google Calendar API client using service account keys."""
     try:
         creds = service_account.Credentials.from_service_account_file(
-            'google_keys.json', scopes=SCOPES
+            creds_dict, scopes=SCOPES
         )
         return build('calendar', 'v3', credentials=creds)
     except Exception as e:
@@ -133,7 +138,7 @@ elif choice == "View Schedule":
     else:
         for row in data:
             with st.expander(f"👤 {row[1]} Booked By :  {row[2]} — 📅 {row[3]} at ⏰ {row[4]}"):
-                st.write(f"**Candidate:** {row[1]} | **bookedby:** {row[2]}")
+                st.write(f"**Applicant:** {row[1]} | **Booked by:** {row[2]}")
                 st.write(f"**Notes:** {row[5] if row[5] else 'None'}")
 
 # --- CANCEL RESERVATION WITH GOOGLE REMOVAL ---
