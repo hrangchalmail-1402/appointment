@@ -132,7 +132,7 @@ elif choice == "View Schedule":
         st.info("No interviews scheduled at the moment.")
     else:
         for row in data:
-            with st.expander(f"👤 {row[1]} Bookrf By :  {row[2]} — 📅 {row[3]} at ⏰ {row[4]}"):
+            with st.expander(f"👤 {row[1]} Booked By :  {row[2]} — 📅 {row[3]} at ⏰ {row[4]}"):
                 st.write(f"**Candidate:** {row[1]} | **bookedby:** {row[2]}")
                 st.write(f"**Notes:** {row[5] if row[5] else 'None'}")
 
