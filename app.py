@@ -66,7 +66,7 @@ def init_db():
         CREATE TABLE IF NOT EXISTS interviews (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             candidate_name TEXT NOT NULL,
-            interviewer_name TEXT NOT NULL,
+            bookedby_name TEXT NOT NULL,
             interview_date TEXT NOT NULL,
             interview_time TEXT NOT NULL,
             notes TEXT,
@@ -80,20 +80,20 @@ conn = init_db()
 cursor = conn.cursor()
 
 # --- STREAMLIT UI SETUP ---
-st.set_page_config(page_title="Interview Scheduler", page_icon="📅", layout="centered")
-st.title("📅 Smart Interview Reservation Sync")
+st.set_page_config(page_title="Appointment Scheduler", page_icon="📅", layout="centered")
+st.title("📅 CM Appointment Reservation Sync")
 
 st.sidebar.header("Navigation")
-menu = ["Book Appointment", "View Schedule", "Cancel Reservation"]
+menu = ["Book Appointment", "View Schedule", "Cancel Appointment"]
 choice = st.sidebar.selectbox("Go to:", menu)
 
 # --- BOOK APPOINTMENT WITH GOOGLE SYNC ---
 if choice == "Book Appointment":
-    st.subheader("📝 Schedule a New Interview")
+    st.subheader("📝 Schedule a New Appointment")
     
     with st.form("booking_form", clear_on_submit=True):
-        candidate = st.text_input("Candidate Full Name")
-        interviewer = st.text_input("Interviewer Name")
+        candidate = st.text_input("Full Name")
+        bookedby = st.text_input("Book Appointment by")
         
         col1, col2 = st.columns(2)
         with col1:
@@ -105,19 +105,19 @@ if choice == "Book Appointment":
         submit = st.form_submit_button("Confirm Booking")
         
         if submit:
-            if not candidate.strip() or not interviewer.strip():
-                st.error("Please fill out both Candidate and Interviewer names.")
+            if not candidate.strip() or not bookedby.strip():
+                st.error("Please fill out both Full N ame and Book Appointment By names.")
             else:
                 date_s = str(booking_date)
                 time_s = str(booking_time)[:5]
-                summary = f"Interview: {candidate} vs {interviewer}"
+                summary = f"Interview: {candidate} vs {bookedby}"
                 
                 st.info("Syncing appointment with Google Calendar...")
                 gcal_id = add_google_calendar_event(summary, date_s, time_s, notes)
                 
                 cursor.execute(
-                    "INSERT INTO interviews (candidate_name, interviewer_name, interview_date, interview_time, notes, gcal_event_id) VALUES (?, ?, ?, ?, ?, ?)",
-                    (candidate, interviewer, date_s, time_s, notes, gcal_id)
+                    "INSERT INTO interviews (candidate_name, bookedby_name, interview_date, interview_time, notes, gcal_event_id) VALUES (?, ?, ?, ?, ?, ?)",
+                    (candidate, bookedby, date_s, time_s, notes, gcal_id)
                 )
                 conn.commit()
                 st.success(f"🎉 Scheduled successfully & synced to Google Calendar!")
@@ -125,7 +125,7 @@ if choice == "Book Appointment":
 # --- VIEW SCHEDULE ---
 elif choice == "View Schedule":
     st.subheader("📋 Current Interview Calendar")
-    cursor.execute("SELECT id, candidate_name, interviewer_name, interview_date, interview_time, notes FROM interviews ORDER BY interview_date, interview_time")
+    cursor.execute("SELECT id, candidate_name, bookedby_name, interview_date, interview_time, notes FROM interviews ORDER BY interview_date, interview_time")
     data = cursor.fetchall()
     
     if not data:
@@ -133,11 +133,11 @@ elif choice == "View Schedule":
     else:
         for row in data:
             with st.expander(f"👤 {row[1]} vs {row[2]} — 📅 {row[3]} at ⏰ {row[4]}"):
-                st.write(f"**Candidate:** {row[1]} | **Interviewer:** {row[2]}")
+                st.write(f"**Candidate:** {row[1]} | **bookedby:** {row[2]}")
                 st.write(f"**Notes:** {row[5] if row[5] else 'None'}")
 
 # --- CANCEL RESERVATION WITH GOOGLE REMOVAL ---
-elif choice == "Cancel Reservation":
+elif choice == "Cancel Appointment":
     st.subheader("❌ Cancel a Reservation")
     cursor.execute("SELECT id, candidate_name, interview_date, gcal_event_id FROM interviews")
     records = cursor.fetchall()
