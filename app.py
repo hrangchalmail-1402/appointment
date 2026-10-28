@@ -22,6 +22,8 @@ def get_calendar_service():
         creds = service_account.Credentials.from_service_account_file(
             creds_dict, scopes=SCOPES
         )
+
+        print(creds)
         return build('calendar', 'v3', credentials=creds)
     except Exception as e:
         st.error(f"Failed to connect to Google Calendar API: {e}")
