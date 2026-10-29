@@ -54,8 +54,8 @@ def add_google_calendar_event(summary, date_str, time_str, description):
     event = {
         'summary': summary,
         'description': description,
-        'start': {'dateTime': start_datetime, 'Asia/Kolkata': 'UTC'},
-        'end': {'dateTime': end_datetime, 'Asia/Kolkata': 'UTC'},
+        'start': {'dateTime': start_datetime, 'timeZone': 'Asia/Kolkata'},
+        'end': {'dateTime': end_datetime, 'timeZone': 'Asia/Kolkata'},
     }
     
     try:
