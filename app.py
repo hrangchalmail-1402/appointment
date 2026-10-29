@@ -35,7 +35,7 @@ def get_calendar_service():
         )
 
         #print(creds)
-        
+
         return build('calendar', 'v3', credentials=creds)
     except Exception as e:
         st.error(f"Failed to connect to Google Calendar API: {e}")
@@ -131,7 +131,7 @@ if choice == "Book Appointment":
             else:
                 date_s = str(booking_date)
                 time_s = str(booking_time)[:5]
-                summary = f"Appointment: {candidate} : Booked By {bookedby}"
+                summary = f"Appointment: {candidate} : Booking Authorized By {bookedby}"
                 
                 st.info("Syncing appointment with Google Calendar...")
                 gcal_id = add_google_calendar_event(summary, date_s, time_s, notes)
