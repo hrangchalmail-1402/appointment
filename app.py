@@ -6,20 +6,23 @@ from googleapiclient.discovery import build
 from google.oauth2 import service_account
 
 
-# --- GOOGLE CALENDAR CONFIGURATION ---
-# Replace this with your actual Google Calendar ID
+# --- He tah hian GOOGLE CALENDAR CONFIGURATION ---
+#Yer  Google Calendar ID aw !!1
 CALENDAR_ID = "hrangchalmail@gmail.com"
 SCOPES = ['https://googleapis.com']
 
 creds_dict = dict(st.secrets["connections_gcs"])
 
-# 2. Define required scopes for Google Calendar
+# scopes for Google Calendar Buaithlak !!!!
 SCOPES = ["https://googleapis.com"]
 
 def get_calendar_service():
     """Initializes the Google Calendar API client using service account keys."""
     try:
-        creds = service_account.Credentials.from_service_account_file(
+        
+        #creds=service_account.Credentials.Authorized_service_account()
+
+        creds = service_account.Credentials.from_service_account_info(
             creds_dict, scopes=SCOPES
         )
 
@@ -90,10 +93,10 @@ cursor = conn.cursor()
 
 # --- STREAMLIT UI SETUP ---
 st.set_page_config(page_title="Appointment Scheduler", page_icon="📅", layout="centered")
-st.title("📅 CM Appointment Reservation Sync")
+st.title(" CM Appointment Reservation Sync")
 
 st.sidebar.header("Navigation")
-menu = ["Book Appointment", "View Schedule", "Cancel Appointment"]
+menu = ["Book Appointment", "View Schedule", "Cancel Appointment","Update Appointment"]
 choice = st.sidebar.selectbox("Go to:", menu)
 
 # --- BOOK APPOINTMENT WITH GOOGLE SYNC ---
@@ -145,9 +148,25 @@ elif choice == "View Schedule":
                 st.write(f"**Applicant:** {row[1]} | **Booked by:** {row[2]}")
                 st.write(f"**Notes:** {row[5] if row[5] else 'None'}")
 
+
+elif choice == "Update Appointment":
+    st.subheader("❌ Update an Appointment")
+    cursor.execute("SELECT id, candidate_name, interview_date,interview_time, gcal_event_id FROM interviews")
+    records = cursor.fetchall()
+    
+    if not records:
+        st.info("No appointments available to cancel.")
+    else:
+        record_dict = {f"{r[1]} ({r[2]})": (r[0], r[3]) for r in records}
+        selected_record = st.selectbox("Select interview to Update:", list(record_dict.keys()))
+        db_id, gcal_id = record_dict[selected_record]
+        
+       
+    
+    
 # --- CANCEL RESERVATION WITH GOOGLE REMOVAL ---
 elif choice == "Cancel Appointment":
-    st.subheader("❌ Cancel a Reservation")
+    st.subheader("❌ Cancel an Appointment")
     cursor.execute("SELECT id, candidate_name, interview_date, gcal_event_id FROM interviews")
     records = cursor.fetchall()
     
