@@ -11,6 +11,7 @@ from google_auth_oauthlib.flow import Flow
 # --- He tah hian GOOGLE CALENDAR CONFIGURATION ---
 #Yer  Google Calendar ID aw !!1
 CALENDAR_ID = "cmappoint@cmappoint.iam.gserviceaccount.com"
+
 SCOPES = [
     "https://www.googleapis.com/auth/calendar.events"
 ]
@@ -18,7 +19,7 @@ SCOPES = [
 creds_dict = dict(st.secrets["connections_gcs"])
 
 # scopes for Google Calendar Buaithlak !!!!
-SCOPES = ["https://googleapis.com"]
+
 
 def get_calendar_service():
     """Initializes the Google Calendar API client using service account keys."""
