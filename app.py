@@ -18,6 +18,7 @@ SCOPES = [
     #"https://www.googleapis.com"
 ]
 
+# Streamlit secrets a kan dah ho hi Key = Value Pair in dah ang
 creds_dict = dict(st.secrets["connections_gcs"])
 
 # scopes for Google Calendar Buaithlak !!!!
@@ -27,13 +28,14 @@ def get_calendar_service():
     """Initializes the Google Calendar API client using service account keys."""
     try:
         
-        #creds=service_account.Credentials.Authorized_service_account()
+        #creds = service_account.Credentials.from_service_account_file() ..hei hi chu json file kan hman chauhin... min ti buai rei hle mai he thil hian
 
         creds = service_account.Credentials.from_service_account_info(
             creds_dict, scopes=SCOPES
         )
 
-        print(creds)
+        #print(creds)
+        
         return build('calendar', 'v3', credentials=creds)
     except Exception as e:
         st.error(f"Failed to connect to Google Calendar API: {e}")
