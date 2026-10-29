@@ -4,12 +4,16 @@ from datetime import datetime, date, time
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from google.oauth2 import service_account
+from google_auth_oauthlib.flow import Flow
+
 
 
 # --- He tah hian GOOGLE CALENDAR CONFIGURATION ---
 #Yer  Google Calendar ID aw !!1
-CALENDAR_ID = "hrangchalmail@gmail.com"
-SCOPES = ['https://googleapis.com']
+CALENDAR_ID = "cmappoint@cmappoint.iam.gserviceaccount.com"
+SCOPES = [
+    "https://www.googleapis.com/auth/calendar.events"
+]
 
 creds_dict = dict(st.secrets["connections_gcs"])
 
