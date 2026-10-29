@@ -10,11 +10,12 @@ from google_auth_oauthlib.flow import Flow
 
 # --- He tah hian GOOGLE CALENDAR CONFIGURATION ---
 #Yer  Google Calendar ID aw !!1
-#CALENDAR_ID = "cmappoint@cmappoint.iam.gserviceaccount.com"
+
 CALENDAR_ID = "hrangchalmail@gmail.com"
 
 SCOPES = [
-    "https://www.googleapis.com/auth/calendar.events"
+   # "https://www.googleapis.com/auth/calendar.events"
+    "https://www.googleapis.com"
 ]
 
 creds_dict = dict(st.secrets["connections_gcs"])
