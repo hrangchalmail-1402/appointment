@@ -14,8 +14,8 @@ from google_auth_oauthlib.flow import Flow
 CALENDAR_ID = "hrangchalmail@gmail.com"
 
 SCOPES = [
-   # "https://www.googleapis.com/auth/calendar.events"
-    "https://www.googleapis.com"
+    "https://www.googleapis.com/auth/calendar.events"
+    #"https://www.googleapis.com"
 ]
 
 creds_dict = dict(st.secrets["connections_gcs"])
