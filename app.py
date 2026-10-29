@@ -127,7 +127,7 @@ if choice == "Book Appointment":
         
         if submit:
             if not candidate.strip() or not bookedby.strip():
-                st.error("Please fill out both Full N ame and Book Appointment By names.")
+                st.error("Please fill out both Full Name and Book Appointment By names.")
             else:
                 date_s = str(booking_date)
                 time_s = str(booking_time)[:5]
